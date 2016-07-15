@@ -1,19 +1,22 @@
 var path    = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-  devtool: 'sourcemap',
   entry: {},
   module: {
     loaders: [
        { test: /\.js$/, exclude: [/app\/lib/, /node_modules/], loader: 'ng-annotate!babel' },
        { test: /\.html$/, loader: 'raw' },
-       { test: /\.less$/, loader: 'style!css!less' },
-       { test: /\.css$/, loader: 'style!css' }
+       { test: /\.less$/, loader: ExtractTextPlugin.extract("css-loader!less-loader") },
+       { test: /\.css$/, loader: ExtractTextPlugin.extract("css-loader") },
+       { test: /\.(png|jpg|jpeg|gif|woff|ttf|eot|svg)/, loader: 'url-loader?limit=5000'}
     ]
   },
   plugins: [
+    new ExtractTextPlugin("[name].css"),
+
     // Injects bundles in your index.html instead of wiring all manually.
     // It also adds hash to all injected assets so we don't have problems
     // with cache purging during deployment.

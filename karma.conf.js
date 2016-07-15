@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = function (config) {
   config.set({
     // base path used to resolve all patterns
@@ -16,7 +18,9 @@ module.exports = function (config) {
     plugins: [
       require("karma-chai"),
       require("karma-chrome-launcher"),
+      require('karma-phantomjs-launcher'),
       require("karma-mocha"),
+      require("karma-coverage"),
       require("karma-mocha-reporter"),
       require("karma-sourcemap-loader"),
       require("karma-webpack")
@@ -27,8 +31,18 @@ module.exports = function (config) {
     preprocessors: { 'spec.bundle.js': ['webpack', 'sourcemap'] },
 
     webpack: {
+      node : {
+        fs: 'empty'
+      },
       devtool: 'inline-source-map',
       module: {
+        preLoaders: [
+          {
+            test: /\.js$/,
+            loader: 'isparta',
+            include: [/\.spec\.js/]
+          }
+        ],
         loaders: [
           { test: /\.js/, exclude: [/app\/lib/, /node_modules/], loader: 'babel' },
           { test: /\.html/, loader: 'raw' },
@@ -43,7 +57,19 @@ module.exports = function (config) {
     },
 
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha'],
+    reporters: ['dots', 'coverage', 'mocha'],
+
+    coverageReporter: {
+      reporters: [
+        {
+          type: 'text-summary'
+        },
+        {
+          type: 'html',
+          dir: 'build/reports/coverage'
+        }
+      ]
+    },
 
     // web server port
     port: 9876,
@@ -60,7 +86,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['PhantomJS'],
 
     // if true, Karma runs tests once and exits
     singleRun: true

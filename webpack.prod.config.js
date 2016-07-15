@@ -1,11 +1,12 @@
 var webpack = require('webpack');
 var path    = require('path');
+// var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var config  = require('./webpack.config');
 
 config.output = {
   filename: '[name].bundle.js',
   publicPath: '',
-  path: path.resolve(__dirname, 'dist')
+  path: path.resolve(__dirname, 'public')
 };
 
 config.plugins = config.plugins.concat([
@@ -21,6 +22,10 @@ config.plugins = config.plugins.concat([
       except: ['$super', '$', 'exports', 'require', 'angular']
     }
   })
+  // new ExtractTextPlugin("[name].css")
 ]);
+
+// config.module.loaders[3].loader = ExtractTextPlugin.extract("css-loader!less-loader");
+// config.module.loaders[4].loader = ExtractTextPlugin.extract("css-loader");
 
 module.exports = config;

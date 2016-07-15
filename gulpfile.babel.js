@@ -1,5 +1,3 @@
-'use strict';
-
 import gulp     from 'gulp';
 import webpack  from 'webpack';
 import path     from 'path';
@@ -37,14 +35,15 @@ let paths = {
     path.join(root, 'index.html')
   ],
   entry: path.join(__dirname, root, 'app/app.js'),
+  vendorEntry: path.join(__dirname, root, 'app/vendor.js'),
   output: root,
   blankTemplates: path.join(__dirname, 'generator', 'component/**/*.**'),
-  dest: path.join(__dirname, 'dist')
+  dest: path.join(__dirname, 'public')
 };
 
 // use webpack.config.js to build modules
-gulp.task('webpack', ['clean'], (cb) => {
-  const config = require('./webpack.dist.config');
+gulp.task('build', ['clean'], (cb) => {
+  const config = require('./webpack.prod.config');
   config.entry.app = paths.entry;
 
   webpack(config, (err, stats) => {
@@ -118,7 +117,7 @@ gulp.task('clean', (cb) => {
   del([paths.dest]).then(function (paths) {
     gutil.log("[clean]", paths);
     cb();
-  })
+  });
 });
 
 gulp.task('default', ['watch']);

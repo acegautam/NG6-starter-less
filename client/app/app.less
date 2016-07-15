@@ -1,6 +1,18 @@
+@import "~bootstrap/less/bootstrap.less";
 @import './common/common';
+
+@component-base-url: "components";
+@common-base-url: "common";
 
 .app {
   height: 100%;
   background-color: @lightBgColor;
 }
+
+// Common styles
+@import "@{common-base-url}/hero/hero";
+@import "@{common-base-url}/navbar/navbar";
+
+// Component styles
+@import "@{component-base-url}/home/home";
+@import "@{component-base-url}/about/about";
