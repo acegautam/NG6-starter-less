@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import homeComponent from './home.component';
+import homeService from './home.service';
 
 let homeModule = angular.module('home', [
   uiRouter
@@ -18,6 +19,7 @@ let homeModule = angular.module('home', [
     });
 })
 
-.component('home', homeComponent);
+.component('home', homeComponent)
+.service('HomeService', homeService);
 
 export default homeModule;

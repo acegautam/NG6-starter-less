@@ -76,7 +76,7 @@ gulp.task('serve', () => {
   serve({
     port: process.env.PORT || 3000,
     open: false,
-    server: {baseDir: root},
+    server: [root, 'api'],
     middleware: [
       historyApiFallback(),
       webpackDevMiddelware(compiler, {
@@ -98,10 +98,10 @@ gulp.task('component', () => {
   const cap = (val) => {
     return val.charAt(0).toUpperCase() + val.slice(1);
   };
-  const name = yargs.argv.name;
+  const name = yargs.argv.name.toLowerCase();
   const parentPath = yargs.argv.parent || '';
   const destPath = path.join(resolveToComponents(), parentPath, name);
-
+  console.log(`****** Generating component - ${cap(name)} *******`);
   return gulp.src(paths.blankTemplates)
     .pipe(template({
       name: name,

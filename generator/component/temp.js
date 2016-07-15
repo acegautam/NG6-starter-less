@@ -1,6 +1,7 @@
 import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import <%= name %>Component from './<%= name %>.component';
+import <%= name %>Service from './<%= name %>.service';
 
 let <%= name %>Module = angular.module('<%= name %>', [
   uiRouter
@@ -15,6 +16,7 @@ let <%= name %>Module = angular.module('<%= name %>', [
     });
 })
 
-.component('<%= name %>', <%= name %>Component);
+.component('<%= name %>', <%= name %>Component)
+.service('<%= upCaseName %>Service', <%= name %>Service);
 
 export default <%= name %>Module;
